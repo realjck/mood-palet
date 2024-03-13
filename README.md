@@ -6,12 +6,23 @@ It then allows users to save and manage their palettes, tag them by mood, as wel
 
 ### Python 3 | Flask
 
+### Setup Python environment:
+
 ```bash
+# Create virtual environment:
 python3 -m venv .venv
-source venv/bin/activate
-# windows: "source .venv/Scripts/activate"
+
+# Activate Python (Mac/Linux):
+.venv/bin/activate
+# (Windows PowerShell):
+.venv/Scripts/activate"
+```
+
+### Install dependencies and launch app:
+
+```bash
 pip install -r requirements.txt
 
+# Launch (--debug for quick refresh):
 flask --app main run --debug
-# (--debug for quick refresh)
 ```
