@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block head %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>MoodPalet</title>
+		<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='image/favicon.ico') }}">
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
+		<link href="{{ url_for('static', filename='css/fontawesome/css/all.css') }}" rel="stylesheet" />
+		<script src="{{ url_for('static', filename='js/jquery.min.js') }}" defer></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" defer></script>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+		<div class="container">
+		</div>
+	{%  endblock %}
+</body>
+</html>
