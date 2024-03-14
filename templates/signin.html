@@ -12,9 +12,7 @@
 			Mood Palet
 		</div>
 		<div class="text-center mt-2">
-			{% block instruction %}
-			Enter your login credentials. If you have not yet created your user account, click on "Sign in"
-			{%  endblock %}
+s
 		</div>
 		<form class="p-3 mt-3" method="POST">
 			<div class="form-field d-flex align-items-center">
@@ -25,6 +23,10 @@
 			<div class="form-field d-flex align-items-center">
 				<span class="fas fa-key"></span>
 				<input type="password" name="password" id="password" placeholder="Password">
+			</div>
+			<div class="form-field d-flex align-items-center">
+				<span class="fas fa-key"></span>
+				<input type="password" name="password-check" id="password-check" placeholder="Password again">
 			</div>
 			<button class="btn mt-3" type="submit">Login</button>
 		</form>
