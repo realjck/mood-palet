@@ -2,7 +2,6 @@ import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for, g
 from markupsafe import escape
 from pathlib import Path
-
 from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
@@ -40,31 +39,51 @@ def init_db():
             db.commit()
 
 ##########################
-# Routes Flask
+# Routes Flask WEB
 ##########################
 
 app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c64b'
 
 @app.route('/')
 def index():
+    """Main route /"""
     if 'username' in session:
-        return f'Logged in as {escape(session["username"])}'
-    return 'You are not logged in'
+        return f'Logged as {session["username"]}'
+    else:
+        return redirect(url_for('login_get'))
 
-@app.get('/signin')
-def signin_get():
-    """Show sign-in screen"""
-    return render_template('signin.html')
+@app.get('/signup')
+def signup_get():
+    """Show sign-up screen"""
+    return render_template('signup.html')
 
-@app.post('/signin')
-def signin_post():
-    """do sign-in"""
-    username = escape(request.form.get('username'))
+@app.post('/signup')
+def signup_post():
+    """do sign-up"""
+    username = escape(request.form.get('username')).strip()
+    password = escape(request.form.get('password')).strip()
+
+    if (len(username) < 4) or (len(password) < 4):
+        return render_template('signup.html',
+                               message_alert="Username or password too short")
+
     db = get_db()
+
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
-    print(cursor.fetchone())
+    cursor.execute("SELECT * FROM user WHERE name=?",
+                   (username,))
+    is_taken = cursor.fetchone()
+    if is_taken:
+        return render_template('signup.html',message_alert="Username already taken.")
+
+    hashed_password = generate_password_hash(password)
+    cursor.execute("INSERT INTO user (name, password) VALUES (?, ?)",
+                   (username, hashed_password))
+    db.commit()
     db.close()
+
+    return render_template('login.html',
+                           message_info="Username "+username+" created with success.")
 
 @app.get('/login')
 def login_get():

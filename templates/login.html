@@ -13,8 +13,14 @@
 		</div>
 		<div class="text-center mt-2">
 			{% block instruction %}
-			Enter your login credentials. If you have not yet created your user account, click on "Sign in"
-			{%  endblock %}
+				<p>Enter your login credentials</p>
+			{% endblock %}
+			<div class="alert-info">
+				{{ message_info }}
+			</div>
+			<div class="alert-danger">
+				{{ message_alert }}
+			</div>
 		</div>
 		<form class="p-3 mt-3" method="POST">
 			<div class="form-field d-flex align-items-center">
@@ -26,10 +32,16 @@
 				<span class="fas fa-key"></span>
 				<input type="password" name="password" id="password" placeholder="Password">
 			</div>
-			<button class="btn mt-3" type="submit">Login</button>
+			<button class="btn mt-3" type="submit">
+				{% block button_label %}
+					Login
+				{% endblock %}
+			</button>
 		</form>
 		<div class="text-center fs-6">
-			<a href="./signin">Sign in</a>
+		{%  block link %}
+			<a href="./signup">Create account</a>
+		{% endblock %}
 		</div>
 	</div>
-{%  endblock %}
+{% endblock %}
