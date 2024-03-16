@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 DATABASE = '.sqlite.db'
 
+
 def get_db():
     """Get database connexion"""
     db = getattr(g, '_database', None)
@@ -22,12 +23,14 @@ def get_db():
         db.row_factory = sqlite3.Row
     return db
 
+
 @app.teardown_appcontext
 def close_connection(exception):
     """Close connection at the end of each HTTP request"""
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
 
 def init_db():
     """Init database, create from schema.sql if needed"""
@@ -38,11 +41,13 @@ def init_db():
                 db.cursor().executescript(f.read())
             db.commit()
 
+
 ##########################
 # Routes Flask WEB
 ##########################
 
 app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c64b'
+
 
 @app.route('/')
 def index():
@@ -50,12 +55,14 @@ def index():
     if 'username' in session:
         return f'Logged as {session["username"]}'
     else:
-        return redirect(url_for('login_get'))
+        return redirect(url_for('login'))
+
 
 @app.get('/signup')
 def signup_get():
     """Show sign-up screen"""
     return render_template('signup.html')
+
 
 @app.post('/signup')
 def signup_post():
@@ -68,7 +75,6 @@ def signup_post():
                                message_alert="Username or password too short")
 
     db = get_db()
-
     cursor = db.cursor()
     cursor.execute("SELECT * FROM user WHERE name=?",
                    (username,))
@@ -83,23 +89,24 @@ def signup_post():
     db.close()
 
     flash('Username {} created with success.'.format(username), 'info')
-    return redirect(url_for('login_get'))
+    return redirect(url_for('login'))
 
-@app.get('/login')
-def login_get():
-    """Show login screen"""
-    infos = get_flashed_messages(category_filter=['info'])
-    message_info = ''
-    if len(infos) > 0:
-        message_info = infos[len(infos) - 1]
-    return render_template('login.html', message_info=message_info)
 
-@app.post('/login')
-def login_post():
-    """do login"""
-    init_db()
-    name = generate_password_hash(escape(request.form.get('username')))
-    return render_template('manager.html', name=name)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Show login screen / do login"""
+    if request.method == 'GET':
+        infos = get_flashed_messages(category_filter=['info'])
+        message_info = ''
+        if len(infos) > 0:
+            message_info = infos[len(infos) - 1]
+        return render_template('login.html', message_info=message_info)
+
+    if request.method == 'POST':
+        init_db()
+        name = generate_password_hash(escape(request.form.get('username')))
+        return render_template('manager.html', name=name)
+
 
 @app.route('/logout')
 def logout():
