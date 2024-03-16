@@ -12777,6 +12777,17 @@ textarea.form-control-lg {
 
 /*
   *******************
+  MOOD PALET STYLE
+  *******************
+*/
+
+.alert-danger, .alert-info {
+  color: white;
+  border-radius: 10px;
+}
+
+/*
+  *******************
   LOGIN SCREENS
   *******************
 */
