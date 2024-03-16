@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages
 from markupsafe import escape
 from pathlib import Path
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -19,7 +19,7 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
-        # Use Row objects instead of Dictionnaries for results:
+        # Use Row objects instead of Dictionaries for results:
         db.row_factory = sqlite3.Row
     return db
 
@@ -40,6 +40,19 @@ def init_db():
             with app.open_resource('schema.sql', mode='r') as f:
                 db.cursor().executescript(f.read())
             db.commit()
+
+
+def select_db(table, key, value, leave_open=False):
+    """Do a SQL SELECT"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(f"SELECT * FROM {table} WHERE {key}=?", (value,))
+    response = cursor.fetchall()
+    response = [list(row) for row in response]
+    cursor.close()
+    if not leave_open:
+        db.close()
+    return response
 
 
 ##########################
@@ -74,18 +87,17 @@ def signup_post():
         return render_template('signup.html',
                                message_alert="Username or password too short")
 
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM user WHERE name=?",
-                   (username,))
-    is_taken = cursor.fetchone()
-    if is_taken:
+    is_taken = select_db('user', 'name', username, True)
+    if len(is_taken) > 0:
         return render_template('signup.html',message_alert="Username already taken.")
 
     hashed_password = generate_password_hash(password)
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("INSERT INTO user (name, password) VALUES (?, ?)",
                    (username, hashed_password))
     db.commit()
+    cursor.close()
     db.close()
 
     flash('Username {} created with success.'.format(username), 'info')
@@ -104,8 +116,13 @@ def login():
 
     if request.method == 'POST':
         init_db()
-        name = generate_password_hash(escape(request.form.get('username')))
-        return render_template('manager.html', name=name)
+        name = escape(request.form.get('username'))
+        password = escape(request.form.get('password'))
+        result = select_db('user','name', name)
+        if len(result) > 0:
+            if check_password_hash(result[0][2], password):
+                return 'Welcome '+name+'!'
+        return render_template('login.html', message_info='Wrong username or password')
 
 
 @app.route('/logout')
