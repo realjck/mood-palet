@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, session, redirect, url_for, g
+from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages
 from markupsafe import escape
 from pathlib import Path
 from werkzeug.security import generate_password_hash
@@ -82,13 +82,17 @@ def signup_post():
     db.commit()
     db.close()
 
-    return render_template('login.html',
-                           message_info="Username "+username+" created with success.")
+    flash('Username {} created with success.'.format(username), 'info')
+    return redirect(url_for('login_get'))
 
 @app.get('/login')
 def login_get():
     """Show login screen"""
-    return render_template('login.html')
+    infos = get_flashed_messages(category_filter=['info'])
+    message_info = ''
+    if len(infos) > 0:
+        message_info = infos[len(infos) - 1]
+    return render_template('login.html', message_info=message_info)
 
 @app.post('/login')
 def login_post():
