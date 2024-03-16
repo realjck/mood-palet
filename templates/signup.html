@@ -6,7 +6,10 @@
 	{{ super() }}
 {% endblock %}
 {% block instruction %}
-	<p>Please choose a name and password.</p>
+	Choose a name and password:
+{% endblock %}
+{% block password_input %}
+	<input type="text" name="password" id="password" placeholder="Password">
 {% endblock %}
 {%  block button_label %}
 	Create account

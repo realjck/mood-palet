@@ -1,20 +1,21 @@
 {% extends "layout.html" %}
 {% block head %}
 	{{ super() }}
-	<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block content %}
-	<div class="wrapper">
+	<div class="login-wrapper">
 		<div class="logo">
 			<img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo">
 		</div>
 		<div class="text-center mt-4 name">
-			Mood Palet
+			<h1>Mood Palet</h1>
 		</div>
 		<div class="text-center mt-2">
-			{% block instruction %}
-				<p>Enter your login credentials</p>
-			{% endblock %}
+			<h2>
+				{% block instruction %}
+					Enter your login credentials:
+				{% endblock %}
+			</h2>
 			<div class="alert-info">
 				{{ message_info }}
 			</div>
@@ -22,15 +23,17 @@
 				{{ message_alert }}
 			</div>
 		</div>
-		<form class="p-3 mt-3" method="POST">
+		<form class="p-3" method="POST">
 			<div class="form-field d-flex align-items-center">
-				<span class="far fa-user"></span>
+				<span class="fas fa-user"></span>
 				<label for="username"></label>
 				<input type="text" name="username" id="username" placeholder="Username">
 			</div>
 			<div class="form-field d-flex align-items-center">
 				<span class="fas fa-key"></span>
-				<input type="password" name="password" id="password" placeholder="Password">
+				{% block password_input %}
+					<input type="password" name="password" id="password" placeholder="Password">
+				{% endblock %}
 			</div>
 			<button class="btn mt-3" type="submit">
 				{% block button_label %}
