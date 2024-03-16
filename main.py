@@ -71,37 +71,36 @@ def index():
         return redirect(url_for('login'))
 
 
-@app.get('/signup')
-def signup_get():
-    """Show sign-up screen"""
-    return render_template('signup.html')
-
-
-@app.post('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup_post():
-    """do sign-up"""
-    username = escape(request.form.get('username')).strip()
-    password = escape(request.form.get('password')).strip()
+    """Show sign-up screen / do sign-up"""
 
-    if (len(username) < 4) or (len(password) < 4):
-        return render_template('signup.html',
-                               message_alert="Username or password too short")
+    if request.method == 'GET':
+        return render_template('signup.html')
 
-    is_taken = select_db('user', 'name', username, True)
-    if len(is_taken) > 0:
-        return render_template('signup.html',message_alert="Username already taken.")
+    if request.method == 'POST':
+        username = escape(request.form.get('username')).strip()
+        password = escape(request.form.get('password')).strip()
 
-    hashed_password = generate_password_hash(password)
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute("INSERT INTO user (name, password) VALUES (?, ?)",
-                   (username, hashed_password))
-    db.commit()
-    cursor.close()
-    db.close()
+        if (len(username) < 4) or (len(password) < 4):
+            return render_template('signup.html',
+                                   message_alert="Username or password too short")
 
-    flash('Username {} created with success.'.format(username), 'info')
-    return redirect(url_for('login'))
+        is_taken = select_db('user', 'name', username, True)
+        if len(is_taken) > 0:
+            return render_template('signup.html',message_alert="Username already taken.")
+
+        hashed_password = generate_password_hash(password)
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO user (name, password) VALUES (?, ?)",
+                       (username, hashed_password))
+        db.commit()
+        cursor.close()
+        db.close()
+
+        flash('Username {} created with success.'.format(username), 'info')
+        return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -122,7 +121,7 @@ def login():
         if len(result) > 0:
             if check_password_hash(result[0][2], password):
                 return 'Welcome '+name+'!'
-        return render_template('login.html', message_info='Wrong username or password')
+        return render_template('login.html', message_alert='Wrong username or password')
 
 
 @app.route('/logout')
