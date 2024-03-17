@@ -120,9 +120,14 @@ def login():
         result = select_db('user','name', name)
         if len(result) > 0:
             if check_password_hash(result[0][2], password):
-                return 'Welcome '+name+'!'
+                return redirect(url_for('palets', username=name))
         return render_template('login.html', message_alert='Wrong username or password')
 
+
+@app.route('/palets/<username>')
+def palets(username):
+    """Route for palets page of a user"""
+    return render_template('palets.html', name=username)
 
 @app.route('/logout')
 def logout():

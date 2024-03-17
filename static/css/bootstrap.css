@@ -21,7 +21,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  --color: #1d8fac; /* Mood Palet color */
+  --color: #585858; /* Mood Palet color */
 }
 
 @font-face {
@@ -136,10 +136,10 @@
   --bs-border-radius-xxl: 2rem;
   --bs-border-radius-2xl: var(--bs-border-radius-xxl);
   --bs-border-radius-pill: 50rem;
-  --bs-box-shadow: 5px 5px 10px rgba(55, 94, 148, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.4);
-  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(55, 94, 148, 0.2);
+  --bs-box-shadow: 5px 5px 10px rgba(94, 94, 94, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.4);
+  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(94, 94, 94, 0.2);
   --bs-box-shadow-lg: 8px 8px 40px rgba(0, 0, 0, 0.15);
-  --bs-box-shadow-inset: inset 2px 2px 8px rgba(55, 94, 148, 0.3), inset -3px -2px 5px rgba(255, 255, 255, 0.8);
+  --bs-box-shadow-inset: inset 2px 2px 8px rgba(94, 94, 94, 0.3), inset -3px -2px 5px rgba(255, 255, 255, 0.8);
   --bs-focus-ring-width: 0.25rem;
   --bs-focus-ring-opacity: 0.25;
   --bs-focus-ring-color: rgba(55, 141, 252, 0.25);
@@ -12786,6 +12786,41 @@ textarea.form-control-lg {
   border-radius: 10px;
 }
 
+.btn-group {
+  height: 35px;
+}
+
+.btn, .btn:hover, .btn:focus, .btn:active, .btn:active:focus {
+  padding: 0.5em 1em;
+  background-color: white;
+  white-space: nowrap;
+  color: var(--color);
+}
+
+.btn:disabled {
+  background-color: white;
+  opacity: 1;
+  color: #d0d0d0;
+}
+
+.form-select {
+  background-color: white;
+}
+
+.btn:hover{
+  background-color: var(--color);
+  color: white;
+}
+
+.form-control {
+  background-color: white;
+  padding: 0.35rem 1.5rem;
+}
+
+::placeholder {
+  color: #c0c0c0;
+}
+
 /*
   *******************
   LOGIN SCREENS
@@ -12891,4 +12926,93 @@ form.p-3 {
     margin: 30px 20px;
     padding: 40px 15px 15px 15px;
   }
+}
+
+/*
+  *******************
+  MANAGER SCREEN
+  *******************
+*/
+
+.manager {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+}
+.manager .share-page {
+  text-align: right;
+  margin-bottom: 0.5em;
+}
+.manager h1 {
+  margin-bottom: 0.75em;
+}
+
+.manager h1 strong {
+  border-bottom: 3px solid var(--color);
+}
+
+.palets {
+  margin: 1.5em 0 0.5em 0;
+}
+
+.palet h3 {
+  font-size: 1em;
+  margin: auto 0;
+}
+
+.palet {
+  background-color: white;
+  border-radius: 5px;
+  text-align: left;
+  padding: 0.5em;
+  box-shadow: 6px 6px 10px #cbced1, -6px -6px 10px #fff;
+  margin-bottom: 0.5em;
+}
+
+.palet.edit {
+  border: 3px solid var(--color);
+}
+
+.palet.edit #title {
+  margin-bottom: 0.5em;
+  width: 100%;
+}
+
+.palet-title {
+  display: flex;
+  justify-content: space-between;
+  height: 45px;
+}
+
+.manager .buttons {
+  margin: 1em 0;
+  text-align: center;
+}
+
+.manager .upload {
+  height: 35px;
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.colors {
+  display: flex;
+  height: 75px;
+}
+
+.colors > div {
+  width: 25%;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: var(--bs-box-shadow-inset);
+}
+
+.color1 {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.color5 {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }

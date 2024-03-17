@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+	<script src="{{ url_for('static', filename='js/color-thief.umd.js') }}" defer></script>
+	<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+	<div class="container text-center">
+		<div class="manager col-lg-6 offset-lg-3 p-3 mt-5">
+			<div class="share-page">
+				<button class="btn btn-sm">
+					<i class="fa-solid fa-share-nodes"></i> Page link
+				</button>
+			</div>
+			<h1><strong>{{ name }}</strong>'s palets</h1>
+			<button id="bt-add-palet" type="button" class="btn">
+				<i class="fa-solid fa-circle-plus"></i> add a Palet
+			</button>
+			<div class="palets">
+				<div class="palet" id="p1">
+					<div class="palet-title">
+						<h3>My personnal Mood Palet lorem ipsum</h3>
+						<div class="btn-group">
+							<button class="btn btn-sm">
+								<i class="fa-regular fa-trash-can"></i>
+							</button>
+							<button class="btn btn-sm">
+								<i class="fa-regular fa-pen-to-square"></i>
+							</button>
+							<button class="btn btn-sm">
+								<i class="fa-solid fa-share-nodes"></i>
+							</button>
+						</div>
+					</div>
+					<div class="colors">
+						<div class="color1"></div>
+						<div class="color2"></div>
+						<div class="color color3"></div>
+						<div class="color color4"></div>
+						<div class="color color5"></div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade"
+				 id="paletModal"
+				 tabindex="-1"
+				 role="dialog"
+				 aria-labelledby="exampleModalLabel"
+				 aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<h2>Add a palet</h2>
+							<div class="palet edit">
+								<div>
+									<input id="title" type="text" placeholder="Enter a title">
+									<h6>Upload image and generate palet:</h6>
+									<div class="upload btn-group">
+										<input id="uploadedFile" type="file" class="form-control" />
+										<img id="uploadedImage" src="" />
+										<button id="bt-generate" type="submit" class="btn btn-sm">
+											<i class="fa-solid fa-palette"></i></i> Generate
+										</button>
+									</div>
+									<div class="colors">
+										<div class="color1"></div>
+										<div class="color2"></div>
+										<div class="color3"></div>
+										<div class="color4"></div>
+										<div class="color5"></div>
+									</div>
+									<div class="buttons">
+										<button class="btn btn-sm">
+											<i class="fa-regular fa-floppy-disk"></i> Save
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- end modal -->
+		</div><!-- end manager -->
+	</div><!-- end container -->
+{%  endblock %}
