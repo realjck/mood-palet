@@ -4,8 +4,10 @@
  */
 
 const colorThief = new ColorThief();
-const customFile = document.getElementById('uploadedFile');
+const uploadedFile = document.getElementById('uploadedFile');
 const uploadedImage = document.getElementById('uploadedImage');
+const btSave = document.getElementById('bt-save');
+const inputTitle = document.getElementById('input-title');
 
 const paletModal = new bootstrap.Modal(document.getElementById("paletModal"), {});
 
@@ -16,14 +18,43 @@ const paletModal = new bootstrap.Modal(document.getElementById("paletModal"), {}
 let colors;
 
 document.getElementById('bt-add-palet').addEventListener('click', () => {
+    inputTitle.value = '';
+    uploadedFile.value = '';
+    uploadedImage.src = '';
+    colors = null;
+    for (let i= 0; i < 5 ; i++) {
+        $(".edit .color"+(i+1)).css("background-color", "rgba(0,0,0,0.1)");
+    }
     paletModal.show();
-    fetch("/palet", {
-        headers: {
-            "Authorization": `Bearer ${key}`,
-        },
-    }).then((response) => {
-        console.log(response);
-    })
+})
+
+btSave.addEventListener('click', () => {
+    let is_valid = true;
+    if (inputTitle.value === ''){
+        $("#input-title").css("border", "3px solid red");
+        is_valid = false;
+    }
+    if (!colors){
+        $("#bt-generate").css("color", "red");
+        is_valid = false;
+    }
+    if (is_valid){
+
+        $("#input-title").css("border", "1px solid var(--color)");
+        $("#bt-generate").css("color", "var(--color)");
+
+        fetch("../api/palet", {
+            headers: {
+                "Authorization": `Bearer ${key}`,
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            body: JSON.stringify(colors)
+        }).then((response) => {
+            console.log(response.json());
+            paletModal.hide();
+        })
+    }
 })
 
 document.getElementById('bt-generate').addEventListener('click', ()=>{
@@ -39,7 +70,7 @@ document.getElementById('bt-generate').addEventListener('click', ()=>{
 /**
  * IMAGE UPLOADER
  */
-customFile.addEventListener('change', function(event) {
+uploadedFile.addEventListener('change', function(event) {
     const uploadedFile = event.target.files[0];
 
     if (uploadedFile?.type.startsWith('image/')) {

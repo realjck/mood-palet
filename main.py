@@ -148,10 +148,10 @@ def logout():
 def auth_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        if not request.headers.get("Authorization"):
+        if not request.headers.get('Authorization'):
             return abort(401)
 
-        key = request.headers["Authorization"].split(" ")[1]
+        key = request.headers['Authorization'].split(' ')[1]
 
         if session['key'] != key:
             return abort(401)
@@ -161,8 +161,29 @@ def auth_required(func):
     return decorated_function
 
 
-@app.route("/palet")
+@app.get('/palets/<username>/get')
+def palets_get(username):
+    """Get the palets from a user (public route)"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        SELECT p.id, p.date, p.title, p.colors, p.url
+        FROM palet p
+        INNER JOIN user u ON p.user_id = u.id
+        WHERE u.name = ?
+    """, (username,))
+
+    palets = [dict(row) for row in cursor.fetchall()]
+    cursor.close()
+    db.close()
+
+    return jsonify({"palets": palets})
+
+
+@app.route('/api/palet', methods=['POST'])
 @auth_required
-def api():
-    # Accorder l'accès à l'API
-    return jsonify({"success": True})
+def palet_create():
+    """Create a palet entry"""
+    data = request.get_json()
+    # TODO: palet record
+    return data

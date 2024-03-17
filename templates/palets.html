@@ -5,6 +5,7 @@
 	<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 	<script>
         const key = "{{ session.key }}";
+        const username = "{{ name }}";
 	</script>
 {% endblock %}
 {% block content %}
@@ -28,9 +29,6 @@
 								<i class="fa-regular fa-trash-can"></i>
 							</button>
 							<button class="btn btn-sm">
-								<i class="fa-regular fa-pen-to-square"></i>
-							</button>
-							<button class="btn btn-sm">
 								<i class="fa-solid fa-share-nodes"></i>
 							</button>
 						</div>
@@ -48,6 +46,7 @@
 			<div class="modal fade"
 				 id="paletModal"
 				 tabindex="-1"
+				 data-bs-backdrop="static"
 				 role="dialog"
 				 aria-labelledby="exampleModalLabel"
 				 aria-hidden="true">
@@ -60,7 +59,7 @@
 							<h2>Add a palet</h2>
 							<div class="palet edit">
 								<div>
-									<input id="title" type="text" placeholder="Enter a title">
+									<input id="input-title" type="text" placeholder="Enter a title">
 									<h6>Upload image and generate palet:</h6>
 									<div class="upload btn-group">
 										<input id="uploadedFile" type="file" class="form-control" />
@@ -77,7 +76,7 @@
 										<div class="color5"></div>
 									</div>
 									<div class="buttons">
-										<button class="btn btn-sm">
+										<button id="bt-save" class="btn btn-sm">
 											<i class="fa-regular fa-floppy-disk"></i> Save
 										</button>
 									</div>
