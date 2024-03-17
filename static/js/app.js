@@ -12,8 +12,18 @@ const paletModal = new bootstrap.Modal(document.getElementById("paletModal"), {}
 /**
  * ADD PALET
  */
+
+let colors;
+
 document.getElementById('bt-add-palet').addEventListener('click', () => {
     paletModal.show();
+    fetch("/palet", {
+        headers: {
+            "Authorization": `Bearer ${key}`,
+        },
+    }).then((response) => {
+        console.log(response);
+    })
 })
 
 document.getElementById('bt-generate').addEventListener('click', ()=>{
@@ -22,7 +32,6 @@ document.getElementById('bt-generate').addEventListener('click', ()=>{
         const r = colors[i][0];
         const g = colors[i][1];
         const b = colors[i][2];
-        console.log(r+" "+g+" "+b);
         $(".edit .color"+(i+1)).css("background-color", "rgba("+r+","+g+","+b+",1)");
     }
 })

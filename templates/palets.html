@@ -3,6 +3,9 @@
 	{{ super() }}
 	<script src="{{ url_for('static', filename='js/color-thief.umd.js') }}" defer></script>
 	<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+	<script>
+        const key = "{{ session.key }}";
+	</script>
 {% endblock %}
 {% block content %}
 	<div class="container text-center">

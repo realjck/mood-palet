@@ -1,5 +1,9 @@
 import sqlite3
-from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages
+import uuid
+from functools import wraps
+
+from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
+    jsonify
 from markupsafe import escape
 from pathlib import Path
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -56,7 +60,7 @@ def select_db(table, key, value, leave_open=False):
 
 
 ##########################
-# Routes Flask WEB
+# WEB routes
 ##########################
 
 app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c64b'
@@ -118,9 +122,9 @@ def login():
         name = escape(request.form.get('username'))
         password = escape(request.form.get('password'))
         result = select_db('user','name', name)
-        if len(result) > 0:
-            if check_password_hash(result[0][2], password):
-                return redirect(url_for('palets', username=name))
+        if len(result) > 0 and check_password_hash(result[0][2], password):
+            session["key"] = str(uuid.uuid4())
+            return redirect(url_for('palets', username=name))
         return render_template('login.html', message_alert='Wrong username or password')
 
 
@@ -129,8 +133,36 @@ def palets(username):
     """Route for palets page of a user"""
     return render_template('palets.html', name=username)
 
+
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
+
+
+##########################
+# REST routes
+##########################
+
+def auth_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if not request.headers.get("Authorization"):
+            return abort(401)
+
+        key = request.headers["Authorization"].split(" ")[1]
+
+        if session['key'] != key:
+            return abort(401)
+
+        return func(*args, **kwargs)
+
+    return decorated_function
+
+
+@app.route("/palet")
+@auth_required
+def api():
+    # Accorder l'accès à l'API
+    return jsonify({"success": True})
