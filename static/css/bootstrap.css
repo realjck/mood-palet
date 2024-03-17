@@ -12781,6 +12781,10 @@ textarea.form-control-lg {
   *******************
 */
 
+a:hover {
+  text-decoration: underline !important;
+}
+
 .alert-danger, .alert-info {
   color: white;
   border-radius: 10px;
