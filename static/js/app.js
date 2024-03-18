@@ -18,7 +18,7 @@ showPalets();
  */
 function showPalets(){
 
-    fetch(username + "/get", {
+    fetch(name + "/get", {
         headers: {
             "Content-Type": "application/json"
         },

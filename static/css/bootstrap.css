@@ -4205,7 +4205,7 @@ textarea.form-control-lg {
     overflow-y: visible;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 0px) {
   .navbar-expand-lg {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -12942,6 +12942,7 @@ form.p-3 {
   background-color: #f0f0f0;
   border-radius: 15px;
   box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+  margin-top: 100px
 }
 .manager .share-page {
   text-align: right;
@@ -12960,8 +12961,8 @@ form.p-3 {
 }
 
 .palet h6 {
-	font-size: 0.6em;
-    margin: 0.5em 0 0 0.25em;
+  font-size: 0.6em;
+  margin: 0.5em 0 0 0.25em;
 }
 
 .palet h3 {
@@ -13025,4 +13026,28 @@ input#input-title {
 .color5 {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+
+/* Disable navbar-toggle
+------------------------------------------ */
+
+.navbar-toggler {
+  display: none !important;
+}
+
+nav.navbar.navbar-expand-lg.bg-body-tertiary {
+  background-color: white !important;
+  justify-content: end;
+}
+
+.navbar-expand-lg .navbar-collapse {
+  display: flex !important;
+  place-content: end;
+  flex-basis: auto;
+}
+
+.navbar .logo img {
+  height: 35px;
+  width: 35px;
 }
