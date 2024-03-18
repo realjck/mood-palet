@@ -1,4 +1,5 @@
 import datetime
+import html
 import sqlite3
 import uuid
 from functools import wraps
@@ -196,7 +197,7 @@ def palet_create():
     """, (
         session['user_id'],
         datetime.datetime.now(),
-        json.dumps(response['title']),
+        escape(response['title']),
         json.dumps(response['colors']),
         str(uuid.uuid4())
     ))
