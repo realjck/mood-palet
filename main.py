@@ -1,9 +1,10 @@
+import datetime
 import sqlite3
 import uuid
 from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
-    jsonify
+    jsonify, json
 from markupsafe import escape
 from pathlib import Path
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -123,6 +124,8 @@ def login():
         password = escape(request.form.get('password'))
         result = select_db('user','name', name)
         if len(result) > 0 and check_password_hash(result[0][2], password):
+            session["user_id"] = result[0][0]
+            session["username"] = name
             session["key"] = str(uuid.uuid4())
             return redirect(url_for('palets', username=name))
         return render_template('login.html', message_alert='Wrong username or password')
@@ -184,6 +187,20 @@ def palets_get(username):
 @auth_required
 def palet_create():
     """Create a palet entry"""
-    data = request.get_json()
-    # TODO: palet record
-    return data
+    response = request.get_json()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO palet (user_id, date, title, colors, url)
+        VALUES (?, ?, ?, ?, ?)
+    """, (
+        session['user_id'],
+        datetime.datetime.now(),
+        json.dumps(response['title']),
+        json.dumps(response['colors']),
+        str(uuid.uuid4())
+    ))
+    cursor.close()
+    db.commit()
+    db.close()
+    return jsonify({'success': session['user_id']})

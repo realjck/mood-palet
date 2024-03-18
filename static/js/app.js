@@ -45,13 +45,17 @@ btSave.addEventListener('click', () => {
         $("#input-title").css("border", "1px solid var(--color)");
         $("#bt-generate").css("color", "var(--color)");
 
+        const data = {};
+        data.title = inputTitle.value;
+        data.colors = colors;
+
         fetch("../api/palet", {
             headers: {
                 "Authorization": `Bearer ${key}`,
                 "Content-Type": "application/json"
             },
             method: 'POST',
-            body: JSON.stringify(colors)
+            body: JSON.stringify(data)
         }).then((response) => {
             console.log(response.json());
             paletModal.hide();
