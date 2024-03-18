@@ -1,8 +1,6 @@
 # Mood Palet
 
-This application allows the user to automatically generate three different colors from an input color, to be able, for example, to find the best match for clothing or to create a graphic composition.
-
-It then allows users to save and manage their palettes, tag them by mood, as well as share them publicly on the web.
+This application allows the user to automatically generate a palette of five colors from an input picture. It then allows users to save and manage their palettes, as well as share them publicly on the web.
 
 ### Python 3 | Flask
 
@@ -15,14 +13,15 @@ python3 -m venv .venv
 # Activate Python (Mac/Linux):
 .venv/bin/activate
 # (Windows PowerShell):
-.venv/Scripts/activate"
+.venv/Scripts/activate
+
+# Install dependencies:
+pip install -r requirements.txt
 ```
 
-### Install dependencies and launch app:
+### Launch app:
 
 ```bash
-pip install -r requirements.txt
-
 # Launch (--debug for quick refresh):
 flask --app main run --debug
 ```
