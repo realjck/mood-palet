@@ -112,7 +112,7 @@ document.getElementById('bt-add-palet').addEventListener('click', () => {
     uploadedImage.src = '';
     colors = null;
     $("#input-title").css("border", "1px solid var(--color)");
-    $("#bt-generate").css("color", "var(--color)");
+    $("#bt-generate").css("color", "");
     for (let i= 0; i < 5 ; i++) {
         $(".edit .color"+(i+1)).css("background-color", "rgba(0,0,0,0.1)");
     }
@@ -136,7 +136,7 @@ btSave.addEventListener('click', () => {
     if (is_valid){
 
         $("#input-title").css("border", "1px solid var(--color)");
-        $("#bt-generate").css("color", "var(--color)");
+        $("#bt-generate").css("color", "");
 
         const data = {};
         data.title = inputTitle.value;
