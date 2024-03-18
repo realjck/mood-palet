@@ -13016,6 +13016,9 @@ input#input-title {
   width: 25%;
   background-color: rgba(0, 0, 0, 0.1);
   box-shadow: var(--bs-box-shadow-inset);
+  text-align: center;
+  font-size: 0.8em;
+  padding-top: 5px;
 }
 
 .color1 {

@@ -56,7 +56,49 @@ function showPalets(){
                 `;
             paletsElement.insertBefore(conteneur, paletsElement.firstChild);
         }
+        showColorValues();
     });
+}
+
+/**
+ * SHOW HEX VALUES IN COLOR BOXES
+ */
+function showColorValues(){
+    const colorDivs = document.querySelectorAll('#palets .colors');
+    colorDivs.forEach((colorDiv) => {
+        const cols = colorDiv.querySelectorAll('div');
+        cols.forEach((col) => {
+            // Faire quelque chose avec la div incluse
+            const resp = rgbToHexLum(col.style.backgroundColor);
+            if (resp.lum){
+                col.style.color = "var(--color)";
+            } else {
+                col.style.color = 'white';
+            }
+            col.innerText = resp.value;
+        });
+    });
+}
+
+/**
+ * CONVERT RGB TO HEX AND CALCULATE LUMINOSITY
+ * @param rgb string
+ * @returns {value, lum}
+ */
+function rgbToHexLum(rgb) {
+    let lum = 0;
+    const components = rgb.match(/\d+/g);
+    const hex = components.map(component => {
+        lum += parseInt(component, 10);
+        const hexValue = parseInt(component, 10).toString(16);
+        return hexValue.length === 1 ? `0${hexValue}` : hexValue;
+    });
+    lum = lum > 384;
+    const value = `#${hex.join('')}`;
+    const response = {};
+    response.value = value.toUpperCase();
+    response.lum = lum;
+    return response;
 }
 
 
@@ -108,7 +150,6 @@ btSave.addEventListener('click', () => {
             method: 'POST',
             body: JSON.stringify(data)
         }).then((response) => {
-            console.log(response.json());
             paletModal.hide();
             showPalets();
         })
