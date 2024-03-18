@@ -72,7 +72,7 @@ app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c
 def index():
     """Main route /"""
     if 'username' in session:
-        return f'Logged as {session["username"]}'
+        return redirect(url_for('palets', username=session["username"]))
     else:
         return redirect(url_for('login'))
 
