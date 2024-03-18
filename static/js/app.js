@@ -22,6 +22,8 @@ document.getElementById('bt-add-palet').addEventListener('click', () => {
     uploadedFile.value = '';
     uploadedImage.src = '';
     colors = null;
+    $("#input-title").css("border", "1px solid var(--color)");
+    $("#bt-generate").css("color", "var(--color)");
     for (let i= 0; i < 5 ; i++) {
         $(".edit .color"+(i+1)).css("background-color", "rgba(0,0,0,0.1)");
     }
