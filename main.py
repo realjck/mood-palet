@@ -135,7 +135,10 @@ def login():
 @app.route('/palets/<username>')
 def palets(username):
     """Route for palets page of a user"""
-    return render_template('palets.html', name=username)
+    is_author = False
+    if session.get('username'):
+        is_author = username == session['username']
+    return render_template('palets.html', name=username, is_author=is_author )
 
 
 @app.route('/logout')
