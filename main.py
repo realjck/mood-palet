@@ -1,5 +1,4 @@
 import datetime
-import html
 import sqlite3
 import uuid
 from functools import wraps
@@ -43,13 +42,14 @@ def init_db():
     if not Path('.sqlite.db').exists():
         with app.app_context():
             db = get_db()
-            with app.open_resource('schema.sql', mode='r') as f:
+            # with app.open_resource('schema.sql', mode='r') as f:
+            with open('schema.sql', 'r', encoding='utf-8') as f:
                 db.cursor().executescript(f.read())
             db.commit()
 
 
 def select_db(table, key, value, leave_open=False):
-    """Do a SQL SELECT"""
+    """Do a SQL SELECT (often used to check if user exists)"""
     db = get_db()
     cursor = db.cursor()
     cursor.execute(f"SELECT * FROM {table} WHERE {key}=?", (value,))
@@ -62,7 +62,7 @@ def select_db(table, key, value, leave_open=False):
 
 
 ##########################
-# WEB routes
+# HTML WEB routes
 ##########################
 
 app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c64b'
@@ -74,7 +74,14 @@ def index():
     if 'username' in session:
         return redirect(url_for('palets', username=session["username"]))
     else:
+        init_db()
         return redirect(url_for('login'))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """404 NOT FOUND"""
+    return render_template("404.html"), 404
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -138,7 +145,12 @@ def palets(username):
     is_author = False
     if session.get('username'):
         is_author = username == session['username']
-    return render_template('palets.html', name=username, is_author=is_author )
+
+    result = select_db('user','name', username)
+    if len(result) > 0:
+        return render_template('palets.html', name=username, is_author=is_author)
+
+    return render_template('404.html')
 
 
 @app.route('/logout')
@@ -149,7 +161,7 @@ def logout():
 
 
 ##########################
-# REST routes
+# REST routes for palets
 ##########################
 
 def auth_required(func):
@@ -202,7 +214,7 @@ def palet_create():
         datetime.datetime.now(),
         escape(response['title']),
         json.dumps(response['colors']),
-        str(uuid.uuid4())
+        str(str(uuid.uuid4())[:8])
     ))
     cursor.close()
     db.commit()

@@ -13054,3 +13054,10 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
   height: 35px;
   width: 35px;
 }
+
+/* 404
+------------------------------------------ */
+
+#page404 {
+  margin-top : 100px;
+}

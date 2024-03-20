@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+	<div id="page404" class="container text-center">
+		<h1 class="mt-5">404</h1>
+		<img src="{{ url_for('static', filename='image/logo.png') }}" alt="That's a 404 Sherlock"/>
+		<h2>This page is free</h2>
+		<h3>Do you want to <a href="/signup">create an account</a>?</h3>
+	</div><!-- end container -->
+{%  endblock %}
