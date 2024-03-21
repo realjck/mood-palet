@@ -10,7 +10,7 @@ const btSave = document.getElementById('bt-save');
 const inputTitle = document.getElementById('input-title');
 const paletModal = new bootstrap.Modal(document.getElementById("paletModal"), {});
 const paletsElement = document.getElementById("palets");
-
+const btAdd = document.getElementById('bt-add-palet');
 showPalets();
 
 /**
@@ -27,22 +27,21 @@ function showPalets(){
         return response.json();
     }).then((data) => {
         paletsElement.innerHTML = '';
+        const url = data['url'];
         const palets = data['palets'];
         for (const palet of palets){
+            const url = palet.url;
             const col = JSON.parse(palet.colors);
             let conteneur = document.createElement('div');
             conteneur.innerHTML = `
                     <div class="palet" id="p1">
                         <div class="palet-title">
                             <h3>`+ palet.title +`</h3>
-                            <div class="btn-group">
+                            <a href="../palet/` + url + `">
                                 <button class="btn btn-sm">
-                                    <i class="fa-regular fa-trash-can"></i>
+                                    <i class="fa-solid fa-square-arrow-up-right"></i> Link
                                 </button>
-                                <button class="btn btn-sm">
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                </button>
-                            </div>
+                            </a>
                         </div>
                         <div class="colors">
                             <div class="color1" style="background-color:rgba(`+ col[0][0] +`,`+ col[0][1] +`,`+ col[0][2] +`,1)"></div>
@@ -106,18 +105,20 @@ function rgbToHexLum(rgb) {
  * CLICK ADD PALET
  */
 let colors;
-document.getElementById('bt-add-palet').addEventListener('click', () => {
-    inputTitle.value = '';
-    uploadedFile.value = '';
-    uploadedImage.src = '';
-    colors = null;
-    $("#input-title").css("border", "1px solid var(--color)");
-    $("#bt-generate").css("color", "");
-    for (let i= 0; i < 5 ; i++) {
-        $(".edit .color"+(i+1)).css("background-color", "rgba(0,0,0,0.1)");
-    }
-    paletModal.show();
-})
+if (btAdd){
+    document.getElementById('bt-add-palet').addEventListener('click', () => {
+        inputTitle.value = '';
+        uploadedFile.value = '';
+        uploadedImage.src = '';
+        colors = null;
+        $("#input-title").css("border", "1px solid var(--color)");
+        $("#bt-generate").css("color", "");
+        for (let i= 0; i < 5 ; i++) {
+            $(".edit .color"+(i+1)).css("background-color", "rgba(0,0,0,0.1)");
+        }
+        paletModal.show();
+    })
+}
 
 
 /**

@@ -1,3 +1,4 @@
+import ast
 import datetime
 import sqlite3
 import uuid
@@ -139,6 +140,13 @@ def login():
         return render_template('login.html', message_alert='Wrong username or password')
 
 
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+
 @app.route('/palets/<username>')
 def palets(username):
     """Route for palets page of a user"""
@@ -153,11 +161,28 @@ def palets(username):
     return render_template('404.html')
 
 
-@app.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
+@app.route('/palet/<url>')
+def palet(url):
+    """Route for 1 palet (from 8 chars url)"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+            SELECT user.name, palet.title, palet.colors
+            FROM palet
+            INNER JOIN user ON palet.user_id = user.id
+            WHERE palet.url = ?
+        """, (url,))
+
+    palet = [dict(row) for row in cursor.fetchall()]
+    cursor.close()
+    db.close()
+    if len(palet) > 0:
+        name = palet[0]['name']
+        title = palet[0]['title']
+        cols = ast.literal_eval(palet[0]['colors'])
+        return render_template('palet.html', cols=cols, title=title, name=name)
+
+    return render_template('404.html')
 
 
 ##########################

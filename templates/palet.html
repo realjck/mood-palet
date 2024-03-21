@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+	<div id="palet-wrapper">
+		<div style="background-color:rgba({{ cols[0][0] }},{{ cols[0][1]  }},{{ cols[0][2]  }},1)"></div>
+		<div style="background-color:rgba({{ cols[1][0] }},{{ cols[1][1]  }},{{ cols[1][2]  }},1)"></div>
+		<div style="background-color:rgba({{ cols[2][0] }},{{ cols[2][1]  }},{{ cols[2][2]  }},1)"></div>
+		<div style="background-color:rgba({{ cols[3][0] }},{{ cols[3][1]  }},{{ cols[3][2]  }},1)"></div>
+		<div style="background-color:rgba({{ cols[4][0] }},{{ cols[4][1]  }},{{ cols[4][2]  }},1)"></div>
+		<div id="palet-shades">
+			<div class="op20"></div>
+			<div class="op40"></div>
+			<div class="op60"></div>
+			<div class="op80"></div>
+		</div>
+		<div id="palet-title">
+			{{ title }}
+		</div>
+		<div class="link">
+			<a href="{{ url_for('palets', username=name) }}">
+				<button class="btn btn-sm">
+					<i class="fa-solid fa-palette"></i> All palets from {{ name }}
+				</button>
+			</a>
+		</div>
+		{%  if session['username'] and is_author %}
+			<div class="delete">
+				<button class="btn btn-sm">
+					<i class="fa-regular fa-trash-can"></i> Delete this palet
+				</button>
+			</div>
+		{%  endif %}
+	</div>
+{%  endblock %}
