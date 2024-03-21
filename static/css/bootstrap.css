@@ -12788,6 +12788,7 @@ a:hover {
 .alert-danger, .alert-info {
   color: white;
   border-radius: 10px;
+  padding: 0 0.5em;
 }
 
 .btn-group {

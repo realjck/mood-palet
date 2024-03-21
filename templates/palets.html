@@ -2,7 +2,7 @@
 {% block head %}
 	{{ super() }}
 	<script src="{{ url_for('static', filename='js/color-thief.umd.js') }}" defer></script>
-	<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+	<script src="{{ url_for('static', filename='js/app-palets.js') }}" defer></script>
 	<script>
         const key = "{{ session.key }}";
         const name = "{{ name }}";
