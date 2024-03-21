@@ -1,4 +1,4 @@
-# Mood Palet
+# 🎨 Mood Palet
 
 This application allows the user to automatically generate a palette of five colors from an input picture. It then allows users to save and manage their palettes, as well as share them publicly on the web.
 
