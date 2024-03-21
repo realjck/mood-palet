@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block head %}
 	{{ super() }}
+	<script src="{{ url_for('static', filename='js/app-palet.js') }}" defer></script>
+	<script>
+        const key = "{{ session.key }}";
+        const id = {{ id }};
+	</script>
 {% endblock %}
 {% block content %}
 	<div id="palet-wrapper">
@@ -25,9 +30,9 @@
 				</button>
 			</a>
 		</div>
-		{%  if session['username'] and is_author %}
+		{%  if is_author %}
 			<div class="delete">
-				<button class="btn btn-sm">
+				<button class="btn btn-sm" onclick="deletePalet()">
 					<i class="fa-regular fa-trash-can"></i> Delete this palet
 				</button>
 			</div>

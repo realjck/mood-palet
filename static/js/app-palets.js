@@ -1,6 +1,6 @@
 /**
  * MOOD PALET
- * app.js
+ * app-palets.js
  */
 
 const colorThief = new ColorThief();
@@ -143,7 +143,7 @@ btSave.addEventListener('click', () => {
         data.title = inputTitle.value;
         data.colors = colors;
 
-        fetch("../api/palet", {
+        fetch("../palet/create", {
             headers: {
                 "Authorization": `Bearer ${key}`,
                 "Content-Type": "application/json"

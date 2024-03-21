@@ -167,7 +167,7 @@ def palet(url):
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-            SELECT user.name, palet.title, palet.colors
+            SELECT user.name, palet.id, palet.title, palet.colors
             FROM palet
             INNER JOIN user ON palet.user_id = user.id
             WHERE palet.url = ?
@@ -177,10 +177,14 @@ def palet(url):
     cursor.close()
     db.close()
     if len(palet) > 0:
+        id = palet[0]['id']
         name = palet[0]['name']
         title = palet[0]['title']
         cols = ast.literal_eval(palet[0]['colors'])
-        return render_template('palet.html', cols=cols, title=title, name=name)
+        is_author = False
+        if session.get('username'):
+            is_author = name == session['username']
+        return render_template('palet.html', id=id, cols=cols, title=title, name=name, is_author=is_author)
 
     return render_template('404.html')
 
@@ -224,7 +228,7 @@ def palets_get(username):
     return jsonify({"palets": palets})
 
 
-@app.route('/api/palet', methods=['POST'])
+@app.route('/palet/create', methods=['POST'])
 @auth_required
 def palet_create():
     """Create a palet entry"""
@@ -245,3 +249,35 @@ def palet_create():
     db.commit()
     db.close()
     return jsonify({'success': session['user_id']})
+
+
+@app.route('/palet/delete', methods=['DELETE'])
+@auth_required
+def palet_delete():
+    """Delete a palet entry"""
+    palet_id = request.get_data().decode('utf-8')
+
+    db = get_db()
+    cursor = db.cursor()
+
+    # verify that entry belongs to user
+    cursor.execute("""
+        SELECT user.name
+        FROM palet
+        INNER JOIN user ON palet.user_id = user.id
+        WHERE palet.id = ?
+    """, (palet_id))
+
+    if [dict(row) for row in cursor.fetchall()][0]['name'] == session['username']:
+        # do the delete
+        cursor.execute("""
+            DELETE FROM palet
+            WHERE id = ?
+        """, (palet_id))
+
+        cursor.close()
+        db.commit()
+        db.close()
+        return jsonify({"success": True}), 200
+
+    return jsonify({"error": "Unauthorized"}), 401

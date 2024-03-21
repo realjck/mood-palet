@@ -28,7 +28,7 @@ CREATE TABLE palet (
 INSERT INTO palet VALUES(1,1,datetime('now'),'Red flowers and Vanilla','[[30, 25, 8], [191, 73, 39], [236, 216, 181], [89, 51, 17], [181, 158, 149]]','251f4953');
 INSERT INTO palet VALUES(2,1,datetime('now'),'North Sea Shore November 1976','[[126, 157, 159], [31, 20, 15], [212, 187, 83], [145, 104, 31], [45, 126, 154]]','c88901bb');
 INSERT INTO palet VALUES(3,1,datetime('now'),'Lego Bricks Test#1','[[204, 47, 138], [19, 163, 185], [199, 215, 16], [238, 92, 30], [174, 57, 209]]','96ea2b48');
-INSERT INTO palet VALUES(4,1,datetime('now'),'Bottle of Beaujolais','[[141, 138, 153], [38, 60, 65], [117, 46, 75], [225, 177, 178], [128, 89, 59]]','cc6b1ca6');
+INSERT INTO palet VALUES(4,1,datetime('now'),'Bottle of Beaujolais 🍷🍇','[[141, 138, 153], [38, 60, 65], [117, 46, 75], [225, 177, 178], [128, 89, 59]]','cc6b1ca6');
 INSERT INTO palet VALUES(5,1,datetime('now'),'Landscape of Tunis during summer 1984','[[154, 98, 14], [63, 39, 16], [229, 211, 154], [137, 147, 138], [223, 156, 10]]','ccb88cd1');
 
 COMMIT;
