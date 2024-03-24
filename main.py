@@ -6,11 +6,20 @@ from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
     jsonify, json
+from flask_talisman import Talisman
 from markupsafe import escape
 from pathlib import Path
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+
+csp = {
+    'default-src': [
+        '\'self\'',
+        '*.devjck.fr'
+    ]
+}
+Talisman(app, content_security_policy=csp)
 
 
 ##########################
