@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ctx.load_cert_chain('cert/fullchain.pem', 'cert/privkey.pem')
 
 ##########################
