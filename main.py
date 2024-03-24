@@ -281,3 +281,7 @@ def palet_delete():
         return jsonify({"success": True}), 200
 
     return jsonify({"error": "Unauthorized"}), 401
+
+
+# RUN THE APP
+app.run(host='0.0.0.0', debug=False)
