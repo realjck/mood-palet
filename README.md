@@ -38,13 +38,21 @@ python3 -m venv .venv
 pip install -r requirements.txt
 ```
 
-### Launch app:
+### Launch app for dev:
 
 ```bash
 # Launch (--debug for quick refresh):
 flask --app main run --debug
 ```
 
----
+### Launch app with Docker:
 
-_Happy palet creation!_
+This version is containerized with Docker using SSL certificates from the deployment server, which must be linked in the Dockerfile.
+
+```bash
+# build
+docker build -t mood-palet .
+
+# launch
+dockr run -d -p 80:80 mood-palet
+```
