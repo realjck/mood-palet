@@ -10,6 +10,8 @@ COPY main.py .
 COPY static static
 COPY templates templates
 COPY schema.sql .
+# Copier les certificats SSL
+COPY cert cert
 
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
