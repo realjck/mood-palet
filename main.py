@@ -1,3 +1,5 @@
+import ssl
+
 import ast
 import datetime
 import sqlite3
@@ -6,21 +8,14 @@ from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
     jsonify, json
-from flask_talisman import Talisman
 from markupsafe import escape
 from pathlib import Path
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-csp = {
-    'default-src': [
-        '\'self\'',
-        '*.devjck.fr'
-    ]
-}
-Talisman(app, content_security_policy=csp)
-
+ctx = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+ctx.load_cert_chain('cert/fullchain.pem', 'cert/privkey.pem')
 
 ##########################
 # SQLite database
@@ -293,4 +288,5 @@ def palet_delete():
 
 
 # RUN THE APP
-app.run(host='0.0.0.0', debug=False)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80, debug=False, ssl_context=ctx)

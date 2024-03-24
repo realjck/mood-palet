@@ -15,7 +15,8 @@ COPY schema.sql .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Exposer le port sur lequel l'application Flask va écouter
-EXPOSE 5000
+EXPOSE 80
+EXPOSE 443
 
 # Commande à exécuter lorsqu'un conteneur est lancé
 # Attention : n'est pas prévu pour la mise en production
