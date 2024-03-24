@@ -255,7 +255,7 @@ def palet_create():
     return jsonify({'success': session['user_id']})
 
 
-@app.route('/palet/delete', methods=['DELETE'])
+@app.route('/palet/delete', methods=['POST'])
 @auth_required
 def palet_delete():
     """Delete a palet entry"""

@@ -10,7 +10,7 @@ function deletePalet(){
             "Authorization": `Bearer ${key}`,
             "Content-Type": "application/json"
         },
-        method: 'DELETE',
+        method: 'POST',
         body: id
     }).then((response) => {
         window.location.href = "./../";
