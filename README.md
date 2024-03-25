@@ -56,3 +56,19 @@ docker build -t mood-palet .
 # launch
 docker run --restart always -d -p 443:80 mood-palet
 ```
+
+### Features roadmap (todo):
+
+- [ ] Outsources the Docker container database to ensure the persistence of data
+
+- [ ] Home page with palettes created by all users
+
+- [ ] Adds navbar for visitors to all pages with access to the home page
+
+- [ ] Review the color algorithm for better results for photographs
+
+- [ ] Click on the palettes to access their page, instead of the link button
+
+- [ ] Removal of the generate button and display of palettes directly when uploading the photo
+
+- [ ] Adaptation of the UI for smartphones with addition of a share button on palette pages and addition of hexadecimal codes that can be copied by clicking
