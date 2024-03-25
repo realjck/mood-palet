@@ -54,5 +54,5 @@ This version is containerized with Docker using SSL certificates from the deploy
 docker build -t mood-palet .
 
 # launch
-dockr run -d -p 80:80 mood-palet
+docker run --restart always -d -p 443:80 mood-palet
 ```
