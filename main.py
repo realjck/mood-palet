@@ -1,5 +1,3 @@
-import ssl
-
 import ast
 import datetime
 import sqlite3
@@ -14,8 +12,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ctx.load_cert_chain('cert/fullchain.pem', 'cert/privkey.pem')
 
 ##########################
 # SQLite database
@@ -301,5 +297,4 @@ def palet_delete():
 
 # RUN THE APP
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=8000, debug=False, ssl_context=ctx)
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=False)
