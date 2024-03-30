@@ -89,8 +89,20 @@ def page_not_found(error):
     return render_template("404.html"), 404
 
 
+@app.route('/pp')
+def doc_pp():
+    """Privacy policy"""
+    return render_template("doc_pp.html")
+
+
+@app.route('/tou')
+def doc_tou():
+    """Terms of Use"""
+    return render_template("doc_tou.html")
+
+
 @app.route('/signup', methods=['GET', 'POST'])
-def signup_post():
+def signup():
     """Show sign-up screen / do sign-up"""
 
     if request.method == 'GET':
@@ -289,4 +301,5 @@ def palet_delete():
 
 # RUN THE APP
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=False, ssl_context=ctx)
+    # app.run(host='0.0.0.0', port=8000, debug=False, ssl_context=ctx)
+    app.run(host='0.0.0.0', port=8000, debug=True)
