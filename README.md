@@ -58,7 +58,7 @@ docker run -d --restart always -p 2000:8000 -v $(pwd):/app/ mood-palet
 ```
 
 ### Features roadmap (todo):
-- [ ] Outsources the Docker container database to ensure the persistence of data
+- [X] Outsources the Docker container database to ensure the persistence of data
 
 - [ ] Home page with palettes created by all users
 
