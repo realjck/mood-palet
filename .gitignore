@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.sqlite.db
+MOOD_PALET.db
 
 # C extensions
 *.so

@@ -17,7 +17,7 @@ app = Flask(__name__)
 # SQLite database
 ##########################
 
-DATABASE = '.sqlite.db'
+DATABASE = 'MOOD_PALET.db'
 
 
 def get_db():
@@ -40,7 +40,7 @@ def close_connection(exception):
 
 def init_db():
     """Init database, create from schema.sql if needed"""
-    if not Path('.sqlite.db').exists():
+    if not Path('MOOD_PALET.db').exists():
         with app.app_context():
             db = get_db()
             # with app.open_resource('schema.sql', mode='r') as f:

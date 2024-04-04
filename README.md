@@ -54,7 +54,7 @@ This version is containerized with Docker using SSL certificates from the deploy
 docker build -t mood-palet .
 
 # launch
-docker run --restart always -d -p 443:80 mood-palet
+docker run -d --restart always -p 2000:8000 -v $(pwd):/app/ mood-palet 
 ```
 
 ### Features roadmap (todo):
