@@ -11,8 +11,9 @@ function deletePalet(){
             "Content-Type": "application/json"
         },
         method: 'POST',
-        body: id
+        body: JSON.stringify({id: id})
     }).then((response) => {
+        console.log(JSON.stringify({id: id}));
         window.location.href = "./../";
     });
 }

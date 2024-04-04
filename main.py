@@ -2,6 +2,7 @@ import ast
 import datetime
 import sqlite3
 import uuid
+import logging
 from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
@@ -267,7 +268,10 @@ def palet_create():
 @auth_required
 def palet_delete():
     """Delete a palet entry"""
-    palet_id = request.get_data().decode('utf-8')
+    palet_id = str(request.get_json()['id'])
+
+    if palet_id is None:
+        return jsonify({"error": "Missing palet ID"}), 400
 
     db = get_db()
     cursor = db.cursor()
@@ -280,21 +284,23 @@ def palet_delete():
         WHERE palet.id = ?
     """, (palet_id))
 
-    if [dict(row) for row in cursor.fetchall()][0]['name'] == session['username']:
-        # do the delete
-        cursor.execute("""
-            DELETE FROM palet
-            WHERE id = ?
-        """, (palet_id))
+    result = cursor.fetchone()
+    if result is not None:
+        if result[0] == session['username']:
+            # do the delete
+            cursor.execute("""
+                DELETE FROM palet
+                WHERE id = ?
+            """, (palet_id))
 
-        cursor.close()
-        db.commit()
-        db.close()
-        return jsonify({"success": True}), 200
+            cursor.close()
+            db.commit()
+            db.close()
+            return jsonify({"success": True}), 200
 
     return jsonify({"error": "Unauthorized"}), 401
 
 
 # RUN THE APP
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=True)
