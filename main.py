@@ -282,7 +282,7 @@ def palet_delete():
         FROM palet
         INNER JOIN user ON palet.user_id = user.id
         WHERE palet.id = ?
-    """, (palet_id))
+    """, (palet_id,))
 
     result = cursor.fetchone()
     if result is not None:
@@ -291,7 +291,7 @@ def palet_delete():
             cursor.execute("""
                 DELETE FROM palet
                 WHERE id = ?
-            """, (palet_id))
+            """, (palet_id,))
 
             cursor.close()
             db.commit()
