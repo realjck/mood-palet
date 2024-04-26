@@ -1,8 +1,9 @@
 import ast
 import datetime
+import os
 import sqlite3
 import uuid
-import logging
+
 from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
@@ -67,8 +68,8 @@ def select_db(table, key, value, leave_open=False):
 # HTML WEB routes
 ##########################
 
-app.secret_key = b'a449a3e361391583a64fc758349592acebf6a5e801902686704c6a179e35c64b'
-
+# app.secret_key = b'a449a3e361391583a64fc758349576acebf6a5e801902686704c6a179e35c64b'
+app.secret_key = os.environ.get("SECRET_KEY")
 
 @app.route('/')
 def index():

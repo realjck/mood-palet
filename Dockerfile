@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copier les fichiers requis dans le conteneur
 COPY requirements.txt .
+COPY .env .
 COPY main.py .
 COPY static static
 COPY templates templates
