@@ -21,6 +21,13 @@ This application allows the user to automatically generate a palette of five col
 
 - A static navigation bar provides options for user logout and returning to the personal page.
 
+
+**Online alpha version:**
+
+- login/signup: [moodpalet.pxly.fr](https://moodpalet.pxly.fr)
+
+- public user palets: [moodpalet.pxly.fr/palets/rené](https://moodpalet.pxly.fr/palets/ren%C3%A9)
+
 ### Python 3 | Flask
 
 ### Setup Python environment:
@@ -60,16 +67,22 @@ docker run -d --restart always -p 2000:8000 -v $(pwd):/app/ mood-palet
 ### Features roadmap (todo):
 - [X] Outsources the Docker container database to ensure the persistence of data
 
+- [ ] Better generation of unique links for creating palette URLs
+
+- [ ] OAuth2 social sign-in
+
+- [ ] DB sqlite to MariaDB
+
 - [ ] Home page with palettes created by all users
 
-- [ ] Adds navbar for visitors to all pages with access to the home page
+- [ ] Navbar for visitors to all pages with access to the home page
 
-- [ ] Review the color algorithm for better results for photographs
+- [ ] Crop picture feature / Removal of the generate button
 
 - [ ] Click on the palettes to access their page, instead of the link button
 
-- [ ] Removal of the generate button and display of palettes directly when uploading the photo
+- [ ] Share button on palette pages
 
-- [ ] Adaptation of the UI for smartphones with addition of a share button on palette pages and addition of hexadecimal codes that can be copied by clicking
+- [ ] Copy hexadecimal code on click
 
-- [ ] Better generation of unique links for creating palette URLs
+- [ ] UI Dark mode
