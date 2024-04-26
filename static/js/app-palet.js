@@ -10,9 +10,10 @@ function deletePalet(){
             "Authorization": `Bearer ${key}`,
             "Content-Type": "application/json"
         },
-        method: 'DELETE',
-        body: id
+        method: 'POST',
+        body: JSON.stringify({id: id})
     }).then((response) => {
+        console.log(JSON.stringify({id: id}));
         window.location.href = "./../";
     });
 }

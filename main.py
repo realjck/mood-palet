@@ -2,6 +2,7 @@ import ast
 import datetime
 import sqlite3
 import uuid
+import logging
 from functools import wraps
 
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash, get_flashed_messages, abort, \
@@ -17,7 +18,7 @@ app = Flask(__name__)
 # SQLite database
 ##########################
 
-DATABASE = '.sqlite.db'
+DATABASE = 'MOOD_PALET.db'
 
 
 def get_db():
@@ -40,7 +41,7 @@ def close_connection(exception):
 
 def init_db():
     """Init database, create from schema.sql if needed"""
-    if not Path('.sqlite.db').exists():
+    if not Path('MOOD_PALET.db').exists():
         with app.app_context():
             db = get_db()
             # with app.open_resource('schema.sql', mode='r') as f:
@@ -85,8 +86,20 @@ def page_not_found(error):
     return render_template("404.html"), 404
 
 
+@app.route('/pp')
+def doc_pp():
+    """Privacy policy"""
+    return render_template("doc_pp.html")
+
+
+@app.route('/tou')
+def doc_tou():
+    """Terms of Use"""
+    return render_template("doc_tou.html")
+
+
 @app.route('/signup', methods=['GET', 'POST'])
-def signup_post():
+def signup():
     """Show sign-up screen / do sign-up"""
 
     if request.method == 'GET':
@@ -251,11 +264,14 @@ def palet_create():
     return jsonify({'success': session['user_id']})
 
 
-@app.route('/palet/delete', methods=['DELETE'])
+@app.route('/palet/delete', methods=['POST'])
 @auth_required
 def palet_delete():
     """Delete a palet entry"""
-    palet_id = request.get_data().decode('utf-8')
+    palet_id = str(request.get_json()['id'])
+
+    if palet_id is None:
+        return jsonify({"error": "Missing palet ID"}), 400
 
     db = get_db()
     cursor = db.cursor()
@@ -266,18 +282,25 @@ def palet_delete():
         FROM palet
         INNER JOIN user ON palet.user_id = user.id
         WHERE palet.id = ?
-    """, (palet_id))
+    """, (palet_id,))
 
-    if [dict(row) for row in cursor.fetchall()][0]['name'] == session['username']:
-        # do the delete
-        cursor.execute("""
-            DELETE FROM palet
-            WHERE id = ?
-        """, (palet_id))
+    result = cursor.fetchone()
+    if result is not None:
+        if result[0] == session['username']:
+            # do the delete
+            cursor.execute("""
+                DELETE FROM palet
+                WHERE id = ?
+            """, (palet_id,))
 
-        cursor.close()
-        db.commit()
-        db.close()
-        return jsonify({"success": True}), 200
+            cursor.close()
+            db.commit()
+            db.close()
+            return jsonify({"success": True}), 200
 
     return jsonify({"error": "Unauthorized"}), 401
+
+
+# RUN THE APP
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000, debug=True)

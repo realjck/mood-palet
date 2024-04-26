@@ -12802,6 +12802,10 @@ a:hover {
   color: var(--color);
 }
 
+button.btn.btn-primary.btn-lg.px-4.me-md-2 {
+  width: fit-content;
+}
+
 .btn:disabled {
   background-color: white;
   opacity: 1;
@@ -12926,11 +12930,34 @@ form.p-3 {
   color: var(--color);
 }
 
+.login-link-create a {
+  font-size: 1em;
+}
+
 @media(max-width: 380px) {
   .login-wrapper {
     margin: 30px 20px;
     padding: 40px 15px 15px 15px;
   }
+}
+
+/*
+  *******************
+  DOCUMENT SCREENS
+  *******************
+*/
+
+.doc-title {
+  display: flex;
+}
+
+.doc-title img {
+  width: 6em;
+  height: 6em;
+}
+
+.doc-title h1 {
+  margin: auto;
 }
 
 /*

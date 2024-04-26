@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+{% block content %}
+	<div class="container col-xxl-8 px-4 py-5">
+		<div class="row align-items-center g-5 py-5">
+
+
+			<div class="col-lg-8">
+				<div class="doc-title">
+					<img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo"
+						 class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes"
+						 width="700" height="500" loading="lazy">
+					<h1 class="display-5 fw-bold lh-1 mb-3">
+						{%  block title %}
+							Document title
+						{%  endblock %}
+					</h1>
+				</div>
+				<p class="lead">
+					{%  block page %}
+						Lorem ipsum dolores etc.
+					{%  endblock %}.</p>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+					<a href="{{ url_for('index') }}">
+						<button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
+							Back to Mood Palet!
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

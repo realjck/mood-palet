@@ -41,10 +41,13 @@
 				{% endblock %}
 			</button>
 		</form>
-		<div class="text-center fs-6">
+		<div class="text-center login-link-create">
 		{%  block link %}
-			<a href="./signup">Create account</a>
+			<a href="{{ url_for('signup') }}">Create account</a>
 		{% endblock %}
+		</div>
+		<div class="text-center mt-3">
+			<a href="{{ url_for('doc_pp') }}">Privacy policy</a> | <a href="{{ url_for('doc_tou') }}">Term of use</a>
 		</div>
 	</div>
 {% endblock %}
