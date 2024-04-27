@@ -68,7 +68,6 @@ def select_db(table, key, value, leave_open=False):
 # HTML WEB routes
 ##########################
 
-# app.secret_key = b'a449a3e361391583a64fc758349576acebf6a5e801902686704c6a179e35c64b'
 app.secret_key = os.environ.get("SECRET_KEY")
 
 @app.route('/')
